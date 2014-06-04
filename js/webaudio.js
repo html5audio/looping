@@ -3,14 +3,14 @@
  */
 function Sound(source, level) {
 	if (!window.audioContext) {
-		audioContext = new webkitAudioContext();
+		audioContext = new AudioContext();
 	}
 	var that = this;
 	that.source = source;
 	that.buffer = null;
 	that.isLoaded = false;
 	that.panner = audioContext.createPanner();
-	that.volume = audioContext.createGainNode();
+	that.volume = audioContext.createGain();
 	if (!level) {
 		that.volume.gain.value = 1;
 	}
@@ -40,7 +40,7 @@ Sound.prototype.play = function (playbackRate) {
 		playSound.playbackRate.value = playbackRate;
 		this.panner.connect(this.volume);
 		this.volume.connect(audioContext.destination);
-		playSound.noteOn(0);
+		playSound.start(0);
 	}
 
 	// return the context so we can work with it later!
@@ -58,5 +58,5 @@ Sound.prototype.setPan = function (xValue, yValue, zValue) {
 // pass the returned playSound context 
 // (from Sound.prototype.play) in order to stop sound playback
 Sound.prototype.killSound = function (context) {
-	context.noteOff(0);
+	context.stop(0);
 }
