@@ -9,7 +9,7 @@ function Sound(source, level) {
 	that.source = source;
 	that.buffer = null;
 	that.isLoaded = false;
-	that.panner = audioContext.createPanner();
+	that.panner = audioContext.createStereoPanner();
 	that.volume = audioContext.createGain();
 	if (!level) {
 		that.volume.gain.value = 1;
